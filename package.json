@@ -1,0 +1,9 @@
+{
+    "name": "ProAngularJS",
+    "description": "Pro AngularJS Book",
+    "author": "Adam Freeman",
+    "dependencies": {
+        "serve-static": "*",
+        "connect": "3.1.*"
+    }
+}
