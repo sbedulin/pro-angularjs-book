@@ -6,34 +6,16 @@
     <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css"/>
     <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap-theme.css"/>
     <script src="/bower_components/angular/angular.min.js"></script>
-    <script>
-        var model = {
-            user: "Someone",
-            items: [{ action: "Buy Flowers", done: false },
-                { action: "Get Shoes", done: false },
-                { action: "Collect Tickets", done: true },
-                { action: "Call Joe", done: false }]
-        };
-
-        var todoApp = angular.module('todoApp', []);
-
-        todoApp.controller('ToDoCtrl', function ($scope) {
-            $scope.todo = model;
-        });
-
-        todoApp.filter('boolToString', function() {
-            return function(bool) {
-                return bool ? 'Yes' : 'No';
-            };
-        });
-    </script>
+    <script src="todo.js"></script>
 </head>
 <body ng-controller="ToDoCtrl">
 <div class="col-md-6">
     <div class="page-header">
         <h1>
             {{todo.user}}'s To Do List
-            <span class="label label-default">{{todo.items.length}}</span>
+            <span class="label label-default"
+                  ng-class="warningLevel()"
+                  ng-hide="incompleteCount() === 0">{{incompleteCount()}}</span>
         </h1>
     </div>
     <div class="panel">
