@@ -1,12 +1,14 @@
 var model = {
-    user: "Someone",
-    items: [{ action: "Buy Flowers", done: false },
-        { action: "Get Shoes", done: false },
-        { action: "Collect Tickets", done: true },
-        { action: "Call Joe", done: false }]
+    user: "Someone"
 };
 
 var todoApp = angular.module('todoApp', []);
+
+todoApp.run(function($http) {
+    $http.get('todo.json').success(function(data) {
+        model.items = data;
+    });
+});
 
 todoApp.controller('ToDoCtrl', function ($scope) {
     $scope.todo = model;
@@ -32,4 +34,21 @@ todoApp.filter('boolToString', function() {
     return function(bool) {
         return bool ? 'Yes' : 'No';
     };
+});
+
+todoApp.filter('checkedItems', function() {
+    return function(items, showComplete) {
+        if(showComplete) {
+            return items;
+        }
+        else {
+            var results = []
+            angular.forEach(items, function(item) {
+                if(!item.done) {
+                    results.push(item);
+                }
+            });
+            return results;
+        }
+    }
 });
