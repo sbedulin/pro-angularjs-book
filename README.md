@@ -5,7 +5,7 @@ Contains source codes for [Pro AngularJS](http://www.apress.com/9781430264484) b
 ### To start the project:
 
 1.  Install [Git](http://git-scm.com/downloads) and [Node.js](http://nodejs.org/)
-2.  $ git clone git@github.com:sbedulin/pro-angularjs-book.git
+2.  $ git clone [git@github.com:sbedulin/pro-angularjs-book.git](git@github.com:sbedulin/pro-angularjs-book.git)
 3.  $ cd pro-angularjs-book
 4.  $ npm install
 5.  $ npm install -g bower
