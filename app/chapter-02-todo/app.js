@@ -5,7 +5,7 @@ var model = {
 var todoApp = angular.module('todoApp', []);
 
 todoApp.run(function($http) {
-    $http.get('todo.json').success(function(data) {
+    $http.get('data.json').success(function(data) {
         model.items = data;
     });
 });
