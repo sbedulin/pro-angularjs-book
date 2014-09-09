@@ -22,9 +22,10 @@
     <div class="col-xs-3">
         <a ng-click="selectCategory()"
            class="btn btn-block btn-default btn-lg">Home</a>
-        <a ng-repeat="item in data.products | unique:'category' | orderBy:'toString()'"
-           ng-click="selectCategory(item)" class="btn btn-block btn-default btn-lg">
-            {{item}}
+        <a ng-repeat="category in data.products | unique:'category' | orderBy:'toString()'"
+           ng-click="selectCategory(category)" class="btn btn-block btn-default btn-lg"
+           ng-class="getCategoryClass(category)">
+            {{category}}
         </a>
     </div>
     <div class="col-xs-8">
