@@ -8,6 +8,7 @@ angular.module('sportsStore')
                 $scope.data.products = data;
             })
             .error(function(error) {
+                error = error || { status: 'Unknown error' }
                 $scope.data.error = error;
             });
     });
