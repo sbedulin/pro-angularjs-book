@@ -8,15 +8,17 @@
     <link rel="stylesheet" href="app.css"/>
     <script src="/bower_components/angular/angular.min.js"></script>
     <script>
-        angular.module('sportsStore', ['customFilters']);
+        angular.module('sportsStore', ['customFilters', 'cart']);
     </script>
     <script src="controllers/sportsStore.js"></script>
     <script src="controllers/productListControllers.js"></script>
     <script src="filters/customFilters.js"></script>
+    <script src="components/cart/cart.js"></script>
 </head>
 <body ng-controller="sportsStoreCtrl">
 <div class="navbar navbar-inverse">
     <a class="navbar-brand" href="#">SPORTS STORE</a>
+    <cart-summary />
 </div>
 
 <div class="alert alert-danger" ng-show="data.error">
