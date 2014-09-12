@@ -7,8 +7,22 @@
     <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap-theme.css"/>
     <link rel="stylesheet" href="app.css"/>
     <script src="/bower_components/angular/angular.min.js"></script>
+    <script src="/bower_components/angular-route/angular-route.min.js"></script>
     <script>
-        angular.module('sportsStore', ['customFilters', 'cart']);
+        angular.module('sportsStore', ['customFilters', 'cart', 'ngRoute'])
+        .config(function($routeProvider) {
+            $routeProvider.when('/checkout', {
+                templateUrl: 'views/checkoutSummary.html'
+            });
+
+            $routeProvider.when('/products', {
+                templateUrl: 'views/productList.html'
+            });
+
+            $routeProvider.otherwise({
+                templateUrl: 'views/productList.html'
+            });
+        });
     </script>
     <script src="controllers/sportsStore.js"></script>
     <script src="controllers/productListControllers.js"></script>
@@ -17,7 +31,7 @@
 </head>
 <body ng-controller="sportsStoreCtrl">
 <div class="navbar navbar-inverse">
-    <a class="navbar-brand" href="#">SPORTS STORE</a>
+    <a class="navbar-brand" href="#">CC SPORTS STORE</a>
     <cart-summary />
 </div>
 
@@ -26,7 +40,7 @@
     <a href="app.html" class="alert-link">Click here to try again</a>
 </div>
 
-<ng-include src="'views/productList.html'"></ng-include>
+<ng-view />
 
 </body>
 </html>
