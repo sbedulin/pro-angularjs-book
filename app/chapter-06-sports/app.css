@@ -1,3 +1,15 @@
 .row {
     margin-right: auto;
 }
+
+.ng-invalid {
+    background-color: lightpink;
+}
+
+.ng-valid {
+    background-color: lightgreen;
+}
+
+span.error {
+    color: red;
+}

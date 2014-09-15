@@ -12,11 +12,11 @@
         angular.module('sportsStore', ['customFilters', 'cart', 'ngRoute'])
         .config(function($routeProvider) {
             $routeProvider.when('/complete', {
-                templateUrl: '/views/thankYou.html'
+                templateUrl: 'views/thankYou.html'
             });
 
             $routeProvider.when('/placeorder', {
-                templateUrl: '/views/placeOrder.html'
+                templateUrl: 'views/placeOrder.html'
             });
 
             $routeProvider.when('/checkout', {
@@ -40,7 +40,7 @@
 </head>
 <body ng-controller="sportsStoreCtrl">
 <div class="navbar navbar-inverse">
-    <a class="navbar-brand" href="#">CC SPORTS STORE</a>
+    <a class="navbar-brand" href="#">SPORTS STORE</a>
     <cart-summary />
 </div>
 
