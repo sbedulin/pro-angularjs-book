@@ -2,7 +2,7 @@ Pro AngularJS
 ==================
 Contains source codes for [Pro AngularJS](http://www.apress.com/9781430264484) book from Apress by Adam Freeman
 
-### To start the project:
+### To start the app:
 
 1.  Install [Git](http://git-scm.com/downloads) and [Node.js](http://nodejs.org/)
 2.  $ git clone [git@github.com:sbedulin/pro-angularjs-book.git](git@github.com:sbedulin/pro-angularjs-book.git)
