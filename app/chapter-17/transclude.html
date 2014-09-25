@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html ng-app="exampleApp">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Transclusion</title>
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css"/>
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap-theme.css"/>
+    <script src="/bower_components/angular/angular.min.js"></script>
+    <script type="text/ng-template" id="template">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4>This is the panel</h4>
+            </div>
+            <div class="panel-body" ng-transclude>
+            </div>
+        </div>
+    </script>
+    <script>
+        angular.module('exampleApp', [])
+            .directive('panel', function($compile) {
+                return {
+                    link: function(scope, element, attrs) {
+                        scope.dataSource = 'directive';
+                    },
+                    restrict: 'E',
+                    scope: false,
+                    template: function() {
+                        return angular.element(document.querySelector('#template')).html();
+                    },
+                    transclude: true
+                };
+            })
+            .controller('defaultCtrl', function($scope) {
+                $scope.dataSource = 'controller';
+            });
+    </script>
+</head>
+<body ng-controller="defaultCtrl">
+    <panel>
+        The data value comes from the: {{dataSource}}
+    </panel>
+</body>
+</html>
