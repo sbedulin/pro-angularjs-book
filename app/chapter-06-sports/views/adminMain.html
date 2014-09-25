@@ -1,3 +1,12 @@
-<div class="well">
-    This is the main view
+<div class="panel panel-default row" ng-controller="mainCtrl">
+    <div class="col-xs-3 panel-body">
+        <a ng-repeat="screen in screens" class="btn btn-block btn-default"
+           ng-class="{ 'btn-primary': screen === current }"
+           ng-click="setScreen($index)">
+            {{screen}}
+        </a>
+    </div>
+    <div class="col-xs-9 panel-body">
+        <div ng-include="getScreen()"></div>
+    </div>
 </div>

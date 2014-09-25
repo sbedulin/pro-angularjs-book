@@ -21,6 +21,7 @@ angular.module('sportsStore')
                 .success(function(data) {
                     $scope.data.orderId = data.id;
                     cart.getProducts().length = 0;
+                    $scope.data.orderError = null;
                 })
                 .error(function(error) {
                     $scope.data.orderError = error;
