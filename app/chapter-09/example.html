@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html ng-app="exampleApp">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>AngularJS Demo</title>
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css"/>
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap-theme.css"/>
+    <script src="/bower_components/angular/angular.min.js"></script>
+    <script>
+        var myApp = angular.module('exampleApp', []);
+
+        myApp.controller('dayCtrl', function($scope, days) {
+            $scope.day = days.today;
+        });
+
+        myApp.controller('tomorrowCtrl', function($scope, days) {
+            $scope.day = days.tomorrow;
+        });
+
+        myApp.directive('highlight', function($filter) {
+            var dayNameFilter = $filter('dayName');
+
+            return function(scope, element, attrs) {
+                if(dayNameFilter(scope.day) === attrs['highlight']) {
+                    element.css('color', 'red');
+                }
+            };
+        });
+
+        myApp.filter('dayName', function() {
+            var dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday",
+                "Thursday", "Friday", "Saturday"];
+
+            return function(value) {
+                if(value == null) {
+                    return '(unknown)';
+                }
+
+                return angular.isNumber(value) ? dayNames[value] : value;
+            };
+        });
+
+        var now = new Date();
+        myApp.value('nowValue', now);
+
+        myApp.service('days', function(nowValue) {
+            this.today = nowValue.getDay();
+            this.tomorrow = this.today + 1;
+        });
+    </script>
+</head>
+<body>
+    <div class="panel">
+        <div class="page-header">
+            <h3>AngularJS app</h3>
+        </div>
+        <h4 ng-controller="dayCtrl" highlight="Sunday">Today is {{day | dayName}}</h4>
+        <h4 ng-controller="tomorrowCtrl" highlight="Monday">Tomorrow is {{day | dayName}}</h4>
+    </div>
+</body>
+</html>
