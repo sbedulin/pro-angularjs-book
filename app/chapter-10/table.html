@@ -1,0 +1,14 @@
+<table class="table">
+    <thead>
+    <tr>
+        <th>Action</th>
+        <th>Done</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="item in todos" ng-class="$odd ? 'odd' : 'even'">
+        <td>{{$index + 1}}</td>
+        <td ng-repeat="(key,value) in item">{{key}},{{value}}</td>
+    </tr>
+    </tbody>
+</table>

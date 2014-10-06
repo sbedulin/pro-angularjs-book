@@ -13,6 +13,10 @@
     <script>
         angular.module('exampleApp', [])
             .controller('defaultCtrl', function($scope) {
+                $scope.data = {};
+
+                $scope.mode = 'None';
+
                 $scope.todos = [
                     { action: "Get groceries", complete: false },
                     { action: "Call plumber", complete: false },
@@ -20,51 +24,48 @@
                     { action: "Buy flowers", complete: false },
                     { action: "Call family", complete: false }
                 ];
-
-                $scope.viewFile = function() {
-                    return $scope.showList ? 'list.html' : 'table.html';
-                };
-
-                $scope.reportChange = function() {
-                    console.log('Displayed content: ' + $scope.viewFile());
-                };
             });
     </script>
 </head>
 <body ng-controller="defaultCtrl">
     <div id="todoPanel" class="panel" ng-controller="defaultCtrl">
         <h3 class="panel-header">To Do List</h3>
-        Data items will go here...
-        There are <span ng-bind="todos.length"></span> items
-
-        <hr/>
-
-        <table class="table">
-            <tbody>
-                <tr ng-repeat-start="item in todos">
-                    <td>This is item {{$index}}</td>
-                </tr>
-                <tr>
-                    <td>The action is: {{item.action}}</td>
-                </tr>
-                <tr ng-repeat-end>
-                    <td>Item {{$index}} is {{$item.complete ? '' : 'not'}} complete</td>
-                </tr>
-            </tbody>
-        </table>
-
-        <hr/>
 
         <div class="well">
-            <div class="checkbox">
+            <div class="radio" ng-repeat="button in ['None', 'Table', 'List']">
                 <label>
-                    <input type="checkbox" ng-model="showList" />
-                    Use the list view
+                    <input type="radio" ng-model="$parent.mode"
+                           value="{{button}}" ng-checked="$first" />
+                    {{button}}
                 </label>
             </div>
         </div>
 
-        <ng-include src="viewFile()" onload="reportChange()"></ng-include>
+        <div ng-switch on="mode">
+            <div ng-switch-when="Table">
+                <table class="table">
+                    <thead>
+                        <tr><th>#</th><th>Action</th><th>Done</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in todos" ng-class="$odd ? 'odd' : 'even'">
+                            <td>{{$index + 1}}</td>
+                            <td ng-repeat="prop in item">{{prop}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div ng-switch-when="List">
+                <ol>
+                    <li ng-repeat="item in todos">
+                        {{item.action}}<span ng-if="item.complete"> Done</span>
+                    </li>
+                </ol>
+            </div>
+            <div ng-switch-default>
+                Select another option to display a layout.
+            </div>
+        </div>
     </div>
 </body>
 </html>
