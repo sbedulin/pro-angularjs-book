@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html ng-app="exampleApp">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css"/>
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap-theme.css"/>
+    <style>
+        .Red { background-color: lightcoral; }
+        .Green { background-color: lightgreen;}
+        .Blue { background-color: lightblue; }
+    </style>
+    <script src="/bower_components/angular/angular.min.js"></script>
+    <script>
+        angular.module('exampleApp', [])
+            .controller('defaultCtrl', function($scope) {
+                $scope.message = 'Tap me!';
+            })
+            .directive('tap', function() {
+                return function(scope, el, attrs) {
+                    el.on('touchstart touchend', function() {
+                        scope.$apply(attrs['tap']);
+                    });
+                };
+            });
+    </script>
+</head>
+<body ng-controller="defaultCtrl">
+    <div id="todoPanel" class="panel">
+        <div class="well" tap="message = 'Tapped!'">
+            {{message}}
+        </div>
+    </div>
+</body>
+</html>

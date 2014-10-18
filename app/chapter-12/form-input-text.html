@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html ng-app="exampleApp">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css"/>
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap-theme.css"/>
+    <script src="/bower_components/angular/angular.min.js"></script>
+    <script>
+        angular.module('exampleApp', [])
+            .controller('defaultCtrl', function($scope) {
+                    $scope.requireValue = true;
+                    $scope.matchPattern = new RegExp('^[a-z]');
+            });
+    </script>
+</head>
+<body ng-controller="defaultCtrl">
+    <div id="todoPanel" class="panel">
+        <form name="myForm" novalidate>
+            <div class="well">
+                <div class="form-group">
+                    <label>Text:</label>
+                    <input name="sample" class="form-control"
+                           ng-model="inputValue" ng-minlength="3" ng-maxlength="10"
+                           ng-pattern="matchPattern" ng-required="requireValue" />
+                </div>
+            </div>
+
+            <div class="well">
+                <p>Required Error: {{myForm.sample.$error.required}}</p>
+                <p>Min Length Error: {{myForm.sample.$error.minlength}}</p>
+                <p>Max Length Error: {{myForm.sample.$error.maxlength}}</p>
+                <p>Pattern Error: {{myForm.sample.$error.pattern}}</p>
+                <p>Element Valid: {{myForm.sample.$valid}}</p>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

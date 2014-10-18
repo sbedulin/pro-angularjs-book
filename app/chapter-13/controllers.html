@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html ng-app="exampleApp">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css"/>
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap-theme.css"/>
+    <script src="/bower_components/angular/angular.min.js"></script>
+    <script>
+        angular.module('exampleApp', [])
+            .controller('defaultCtrl', function($scope) {
+                $scope.cities = ['London', 'New York', 'Paris'];
+                $scope.city = 'London';
+
+                $scope.getCountry = function(city) {
+                    switch (city) {
+                        case 'London':
+                            return 'UK';
+                        case 'New York':
+                            return 'USA';
+                    }
+                };
+            });
+    </script>
+</head>
+<body ng-controller="defaultCtrl">
+    <div class="well">
+        <label>Select a City:</label>
+        <select ng-options="city for city in cities" ng-model="city"></select>
+    </div>
+
+    <div class="well">
+        <p>The city is: {{city}}</p>
+        <p>The country is: {{getCountry(city) || 'Unknown'}}</p>
+    </div>
+</body>
+</html>
