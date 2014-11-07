@@ -36,6 +36,7 @@
                 };
             });
     </script>
+    <script src="customFilters.js"></script>
 </head>
 <body ng-controller="defaultCtrl">
     <div class="panel panel-default">
@@ -60,9 +61,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="p in products | limitTo:limitVal | orderBy:'price'">
-                        <td>{{p.name}}</td>
-                        <td>{{p.category}}</td>
+                    <tr ng-repeat="p in products | take:2:limitVal | orderBy:'price'">
+                        <td>{{p.name | labelCase}}</td>
+                        <td>{{p.category | labelCase:true}}</td>
                         <td>{{getExpiryDate(p.expiry) | date:'shortDate'}}</td>
                         <td class="text-right">{{p.price | currency}}</td>
                     </tr>
