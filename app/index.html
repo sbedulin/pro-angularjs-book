@@ -1,31 +1,41 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="linksApp">
 <head lang="en">
     <meta charset="UTF-8">
     <title></title>
+    <script src="/bower_components/angular/angular.min.js"></script>
+    <script>
+        angular.module('linksApp', [])
+                .controller('defaultCtrl', function ($scope) {
+                    $scope.links = [
+                        { href: "/chapter-02-todo/app.html" },
+                        { href: "/chapter-06-sports/app.html" },
+                        { href: "/chapter-09/example.html" },
+                        { href: "/chapter-10/directives.html" },
+                        { href: "/chapter-10/ng-switch.html" },
+                        { href: "/chapter-11/directives.html" },
+                        { href: "/chapter-11/events.html" },
+                        { href: "/chapter-11/custom-events.html" },
+                        { href: "/chapter-12/forms.html" },
+                        { href: "/chapter-12/user-form.html" },
+                        { href: "/chapter-12/form-input-text.html" },
+                        { href: "/chapter-12/form-select.html" },
+                        { href: "/chapter-13/controllers.html" },
+                        { href: "/chapter-13/monolithic-controller.html" },
+                        { href: "/chapter-13/controllers-inheritance.html" },
+                        { href: "/chapter-13/scope-explicit-update.html" },
+                        { href: "/chapter-14/filters.html" },
+                        { href: "/chapter-15/directives.html" },
+                        { href: "/chapter-17/transclude.html" },
+                        { href: "/chapter-17/compileFunction.html" }
+                    ];
+                });
+    </script>
 </head>
-<body>
+<body ng-controller="defaultCtrl">
     <h1>Pro AngularJS book</h1>
     <ul>
-        <li><a href="/chapter-02-todo/app.html">chapter-02-todo/app.html</a></li>
-        <li><a href="/chapter-06-sports/app.html">chapter-06-sports/app.html</a></li>
-        <li><a href="/chapter-09/example.html">chapter-09/example.html</a></li>
-        <li><a href="/chapter-10/directives.html">chapter-10/directives.html</a></li>
-        <li><a href="/chapter-10/ng-switch.html">chapter-10/ng-switch.html</a></li>
-        <li><a href="/chapter-11/directives.html">chapter-11/directives.html</a></li>
-        <li><a href="/chapter-11/events.html">chapter-11/events.html</a></li>
-        <li><a href="/chapter-11/custom-events.html">chapter-11/custom-events.html</a></li>
-        <li><a href="/chapter-12/forms.html">chapter-12/forms.html</a></li>
-        <li><a href="/chapter-12/user-form.html">chapter-12/user-form.html</a></li>
-        <li><a href="/chapter-12/form-input-text.html">chapter-12/form-input-text.html</a></li>
-        <li><a href="/chapter-12/form-select.html">chapter-12/form-select.html</a></li>
-        <li><a href="/chapter-13/controllers.html">chapter-13/controllers.html</a></li>
-        <li><a href="/chapter-13/monolithic-controller.html">chapter-13/monolithic-controller.html</a></li>
-        <li><a href="/chapter-13/controllers-inheritance.html">chapter-13/controllers-inheritance.html</a></li>
-        <li><a href="/chapter-13/scope-explicit-update.html">chapter-13/scope-explicit-update.html</a></li>
-        <li><a href="/chapter-14/filters.html">chapter-14/filters.html</a></li>
-        <li><a href="/chapter-17/transclude.html">chapter-17/transclude.html</a></li>
-        <li><a href="/chapter-17/compileFunction.html">chapter-17/compileFunction.html</a></li>
+        <li ng-repeat="link in links"><a ng-href="{{link.href}}">{{link.href}}</a></li>
     </ul>
 </body>
 </html>
