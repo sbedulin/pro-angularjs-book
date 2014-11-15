@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html ng-app="exampleApp">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css"/>
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap-theme.css"/>
+    <script src="/bower_components/angular/angular.min.js"></script>
+    <script type="text/ng-template" id="scopeTemplate">
+        <div class="panel-body">
+            <p>Name: <input ng-model="data.name" /></p>
+            <p>City: <input ng-model="city" /></p>
+            <p>Country: <input ng-model="country" /></p>
+        </div>
+    </script>
+    <script type="text/ng-template" id="isolatedScopeTemplate">
+        <div class="panel-body">
+            <p>Data value: {{local}}, City: {{cityFn()}}</p>
+            <input ng-model="local"/>
+        </div>
+    </script>
+    <script>
+        angular.module('exampleApp', [])
+            .directive('scopeDemo', function() {
+                return {
+                    template: function() {
+                        return angular.element(document.querySelector('#scopeTemplate')).html();
+                    },
+                    scope: true
+                };
+            })
+            .directive('isolatedScopeDemo', function() {
+                return {
+                    template: function() {
+                        return angular.element(document.querySelector('#isolatedScopeTemplate')).html();
+                    },
+                    scope: {
+                        local: '@nameprop',
+                        cityFn: '&city'
+                    }
+                };
+            })
+            .controller('defaultCtrl', function ($scope) {
+                $scope.data = { name: 'Sergey', defaultCity: 'Minsk' };
+                $scope.city = 'Minsk';
+
+                $scope.getCity = function (name) {
+                    return name == 'Sergey' ? $scope.data.defaultCity : "Unknown";
+                };
+            });
+    </script>
+</head>
+<body ng-controller="defaultCtrl">
+    <div class="panel panel-default">
+        <div class="panel-body" scope-demo></div>
+        <div class="panel-body" scope-demo></div>
+        <div class="panel-body">
+            Direct binding: <input ng-model="data.name"/>
+        </div>
+        <div class="panel-body" isolated-scope-demo nameprop="{{data.name}}" city="getCity(data.name)"></div>
+    </div>
+</body>
+</html>

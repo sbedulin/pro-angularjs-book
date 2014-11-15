@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html ng-app="exampleApp">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css"/>
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap-theme.css"/>
+    <script src="/bower_components/angular/angular.min.js"></script>
+    <script>
+        angular.module('exampleApp', [])
+            .directive('unorderedList', function() {
+                return {
+                    restrict: 'EACM',
+                    replace: true,
+//                    template: '<ul><li ng-repeat="item in data">' +
+//                        '{{item.price | currency}}</li></ul>',
+//                    template: function() {
+//                        return angular.element(document.querySelector('#listTemplate')).html();
+//                    },
+                    templateUrl: 'tableTemplate.html',
+//                    templateUrl: function (elem, attrs) {
+//                        return attrs["template"] == "table" ?
+//                                "tableTemplate.html" : "itemTemplate.html";
+//                    },
+                    link: function(scope, element, attrs) {
+                        scope.data = scope[attrs['unorderedList']] || scope[attrs['listSource']];
+                        scope.tmpl = 'table';
+                    }
+                };
+            })
+            .controller('defaultCtrl', function ($scope) {
+                $scope.products = [
+                    { name: "Apples", category: "Fruit", price: 1.20, expiry: 10 },
+                    { name: "Bananas", category: "Fruit", price: 2.42, expiry: 7 },
+                    { name: "Pears", category: "Fruit", price: 2.02, expiry: 6 },
+
+                    { name: "Tuna", category: "Fish", price: 20.45, expiry: 3 },
+                    { name: "Salmon", category: "Fish", price: 17.93, expiry: 2 },
+                    { name: "Trout", category: "Fish", price: 12.93, expiry: 4 },
+
+                    { name: "Beer", category: "Drinks", price: 2.99, expiry: 365 },
+                    { name: "Wine", category: "Drinks", price: 8.99, expiry: 365 },
+                    { name: "Whiskey", category: "Drinks", price: 45.99, expiry: 365 }
+                ];
+            });
+    </script>
+</head>
+<body ng-controller="defaultCtrl">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3>Products</h3>
+        </div>
+        <div class="panel-body">
+            <label>
+                <input type="radio" ng-model="tmpl" name="tmpl" value="item" checked="checked" />
+                Item
+            </label>
+            <label>
+                <input type="radio" ng-model="tmpl" name="tmpl" value="table" />
+                Table
+            </label>
+        </div>
+        <div class="panel-body">
+            <div unordered-list="products" template="table" class="table table-striped">
+                Content
+            </div>
+        </div>
+    </div>
+</body>
+</html>
