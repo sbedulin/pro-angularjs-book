@@ -47,6 +47,17 @@
                 };
             });
     </script>
+    <script>
+        function Animal() {
+            this.name = 'Animal';
+            this.props = {
+                name: 'Animal'
+            };
+        }
+
+        function Cat() {}
+        //Cat.prototype = new Animal();
+    </script>
 </head>
 <body ng-controller="defaultCtrl">
 <div class="panel panel-default">
