@@ -10,12 +10,20 @@
         <td>{{item.name}}</td>
         <td><input ng-model='item.quantity' /></td>
     </script>
+    <script type="text/ng-template" id="resetTemplate">
+        <td colspan="2"><button ng-click="reset()">Reset</button></td>
+    </script>
     <script>
         angular.module('exampleApp', [])
             .controller('defaultCtrl', function($scope) {
                 $scope.products = [{ name: "Apples", price: 1.20, quantity: 2 },
                     { name: "Bananas", price: 2.42, quantity: 3 },
                     { name: "Pears", price: 2.02, quantity: 1 }];
+
+                $scope.demoValue = 'demoValue';
+                $scope.demo = {
+                    value: 'demoValue'
+                };
             })
             .directive('productItem', function() {
                 return {
@@ -45,18 +53,25 @@
                         };
                     }
                 };
+            })
+            .directive('resetTotals', function() {
+                return {
+                    scope: {
+                        data: '=productData',
+                        propname: '@propertyName'
+                    },
+                    template: document.querySelector('#resetTemplate').outerText,
+                    require: '^productTable',
+                    link: function(scope, element, attrs, ctrl) {
+                        scope.reset = function() {
+                            for (var i = 0; i < scope.data.length; i++) {
+                                scope.data[i][scope.propname] = 0;
+                            }
+                            ctrl.updateTotal();
+                        };
+                    }
+                };
             });
-    </script>
-    <script>
-        function Animal() {
-            this.name = 'Animal';
-            this.props = {
-                name: 'Animal'
-            };
-        }
-
-        function Cat() {}
-        //Cat.prototype = new Animal();
     </script>
 </head>
 <body ng-controller="defaultCtrl">
@@ -67,6 +82,7 @@
             <tr><th>Name</th><th>Quantity</th></tr>
             <tr ng-repeat="item in products" product-item></tr>
             <tr><th>Total:</th><td>{{totalValue}}</td></tr>
+            <tr reset-totals product-data="products" property-name="quantity"></tr>
         </table>
     </div>
 </div>
