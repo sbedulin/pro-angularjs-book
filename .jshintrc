@@ -1,6 +1,25 @@
 {
-  "globalstrict": true,
-  "globals": {
-    "angular": false
-  }
+    "undef": true,
+    "unused": true,
+    "browser": true,
+    "devel": true,
+    "jquery": true,
+    "predef": ["angular"],
+
+    "camelcase": true,
+    "curly": true,
+    "eqeqeq": true,
+    "forin": true,
+    "freeze": true,
+    "immed": true,
+    "newcap": true,
+    "noarg": true,
+    "noempty": true,
+    "nonbsp": true,
+    "nonew": true,
+    "maxlen": 120,
+    "latedef": "nofunc",
+    "quotmark": "single",
+
+    "indent": 4
 }
