@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html ng-app="exampleApp">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css"/>
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap-theme.css"/>
+    <script src="/bower_components/angular/angular.min.js"></script>
+    <script>
+        angular.module('exampleApp', [])
+            .config(function($interpolateProvider) {
+                $interpolateProvider.startSymbol("!!");
+                $interpolateProvider.endSymbol("!!");
+            })
+            .controller('defaultCtrl', function($scope) {
+                $scope.price = '100.23';
+                $scope.cities = ["London", "Paris", "New York"];
+            })
+            .directive('evalExpression', function($parse) {
+                return function(scope, element, attrs) {
+                    scope.$watch(attrs['evalExpression'], function(newValue) {
+                        try {
+                            var expressionFn = $parse(scope.expr);
+                            var result = expressionFn(scope);
+                            if(result == undefined) {
+                                result = 'No result';
+                            }
+                        } catch (err) {
+                            result = 'Cannot evaluate expression';
+                        }
+
+                        element.text(result);
+                    });
+                };
+            })
+            .directive('evalTotalExpression', function($parse, $interpolate) {
+                var expressionFn = $parse('total | currency');
+                var interpolationFn = $interpolate("The total is: !!total | currency!! (including tax)");
+                return {
+                    scope: {
+                        amount: '=amount',
+                        tax: '=tax'
+                    },
+                    link: function(scope, element, attrs) {
+                        scope.$watch('amount', function(newValue) {
+                            var localData = {
+                                total: Number(newValue) + (Number(newValue) * (Number(scope.tax) /100))
+                            };
+
+                            element.text(expressionFn(localData));
+                            element.parent().append(angular.element('<p></p>').text(interpolationFn(localData)));
+                        });
+                    }
+                };
+            })
+            .directive("evalRepeatExpression", function($compile) {
+                return function (scope, element, attrs) {
+                    var content = "<ul><li ng-repeat='city in cities'>!!city!!</li></ul>"
+                    var listElem = angular.element(content);
+                    var compileFn = $compile(listElem);
+                    compileFn(scope);
+                    element.append(listElem);
+                }
+            });
+    </script>
+</head>
+<body ng-controller="defaultCtrl">
+    <div class="well">
+        <p><input class="form-control" type="text" ng-model="expr" /></p>
+        <div>
+            Result: <span eval-expression="expr" />
+        </div>
+    </div>
+    <div class="well">
+        <p><input class="form-control" ng-model="dataValue" /></p>
+        <div>
+            Result: <span eval-total-expression amount="dataValue" tax="10"></span>
+        </div>
+    </div>
+    <div class="well">
+        <span eval-repeat-expression></span>
+    </div>
+</body>
+</html>

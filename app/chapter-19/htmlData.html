@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html ng-app="exampleApp">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css"/>
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap-theme.css"/>
+    <script src="/bower_components/angular/angular.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.3/angular-sanitize.min.js"></script>
+    <script>
+        angular.module('exampleApp', ['ngSanitize'])
+            .controller('defaultCtrl', function($scope, $sanitize) {
+                $scope.dangerousData = '<p>This is <b onmouseover=alert="attack!">dangerous</b> data</p>';
+
+                $scope.$watch('dangerousData', function(newValue) {
+                    $scope.htmlData = $sanitize(newValue);
+                });
+            });
+
+        angular.module('exampleAppUnsafe', [])
+            .controller('defaultCtrl', function($scope) {
+                $scope.dangerousData = '<p>This is <b onmouseover=alert="attack!">dangerous</b> data</p>';
+                $scope.htmlData = $scope.dangerousData;
+            });
+    </script>
+</head>
+<body ng-controller="defaultCtrl">
+    <div class="well">
+        <p><input class="form-control" ng-model="dangerousData" /></p>
+        <p ng-bind-html="htmlData"></p>
+        <p ng-bind="htmlData"></p>
+    </div>
+</body>
+</html>
