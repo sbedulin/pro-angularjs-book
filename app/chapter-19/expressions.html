@@ -15,6 +15,10 @@
             .controller('defaultCtrl', function($scope) {
                 $scope.price = '100.23';
                 $scope.cities = ["London", "Paris", "New York"];
+
+                $scope.doSth = function(param) {
+                    console.log('doSth, param = ', param);
+                };
             })
             .directive('evalExpression', function($parse) {
                 return function(scope, element, attrs) {
@@ -61,6 +65,19 @@
                     compileFn(scope);
                     element.append(listElem);
                 }
+            })
+            .directive('evalAttrExpression', function() {
+                return {
+                    scope: {
+                        evalAttrExpression: '&'
+                    },
+                    link: function(scope, element, attrs) {
+                        element.on('click', function(e) {
+                            e.customData = attrs['customSecret'];
+                            scope.evalAttrExpression({event: e});
+                        });
+                    }
+                };
             });
     </script>
 </head>
@@ -79,6 +96,10 @@
     </div>
     <div class="well">
         <span eval-repeat-expression></span>
+    </div>
+    <div class="well">
+        <p>evalAttrExpression test</p>
+        <p><span eval-attr-expression="doSth(event)" data-custom-secret="very secret data">Click here</span></p>
     </div>
 </body>
 </html>

@@ -30,6 +30,16 @@
                     transclude: true
                 };
             })
+            .directive('test', function() {
+                return {
+                    transclude: 'element',
+                    replace: true,
+                    template: '<span><ng-transclude></ng-transclude>my very new span</span>',
+                    link: function(scope,element,attrs,ctrl, transclude) {
+                        element.find('ng-transclude').replaceWith(transclude());
+                    }
+                };
+            })
             .controller('defaultCtrl', function($scope) {
                 $scope.dataSource = 'controller';
             });
@@ -39,5 +49,8 @@
     <panel>
         The data value comes from the: {{dataSource}}
     </panel>
+    <div class="well">
+        <p test data-mine="yes">aaaa</p>
+    </div>
 </body>
 </html>
