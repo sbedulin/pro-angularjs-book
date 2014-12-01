@@ -8,13 +8,29 @@
     <script src="/bower_components/angular/angular.min.js"></script>
     <script>
         angular.module('exampleApp', [])
+            .config(function($httpProvider) {
+                $httpProvider.interceptors.push(function() {
+                    return {
+                        request: function(config) {
+                            if(config.url.indexOf('json') > 0) {
+                                config.url = 'productData.json';
+                            }
+                            return config;
+                        },
+                        response: function(response) {
+                            console.log("Data Count: " + response.data.length);
+                            return response;
+                        }
+                    };
+                });
+            })
             .controller('defaultCtrl', function($scope, $http) {
                 $scope.loadData = function() {
 //                    $http.get('productData.json').success(function(data) {
 //                        $scope.products = data;
 //                    });
 
-                    $http.get("productData.json").then(function (response) {
+                    $http.get("doesntExist.json").then(function (response) {
                         console.log("Status: " + response.status);
                         console.log("Type: " + response.headers("content-type"));
                         console.log("Length: " + response.headers("content-length"));
