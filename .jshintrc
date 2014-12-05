@@ -8,7 +8,7 @@
 
     "camelcase": true,
     "curly": true,
-    "eqeqeq": true,
+    "eqeqeq": false,
     "forin": true,
     "freeze": true,
     "immed": true,
