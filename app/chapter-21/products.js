@@ -1,49 +1,36 @@
-angular.module('exampleApp', ['increment'])
+angular.module('exampleApp', ['increment', 'ngResource'])
 .constant('baseUrl', 'http://localhost:5500/products/')
-.controller('defaultCtrl', function($scope, $http, baseUrl) {
+.controller('defaultCtrl', function($scope, $http, $resource, baseUrl) {
     $scope.displayMode = 'list';
     $scope.currentProduct = null;
 
+    $scope.productsResource = $resource(baseUrl + ':id', { id: '@id' });
+
     $scope.listProducts = function() {
-        $http.get(baseUrl).success(function(data) {
-            $scope.products = data;
-        });
+        $scope.products = $scope.productsResource.query();
     };
 
     $scope.deleteProduct = function(product) {
-        $http({
-            method: 'DELETE',
-            url: baseUrl + product.id
-        }).success(function() {
+        product.$delete().then(function() {
             $scope.products.splice($scope.products.indexOf(product), 1);
         });
+        $scope.displayMode = 'list';
     };
 
     $scope.createProduct = function(product) {
-        $http.post(baseUrl, product).success(function(newProduct) {
+        new $scope.productsResource(product).$save().then(function(newProduct) {
             $scope.products.push(newProduct);
             $scope.displayMode = 'list';
         });
     };
 
     $scope.updateProduct = function (product) {
-        $http({
-            url: baseUrl + product.id,
-            method: 'PUT',
-            data: product
-        }).success(function(modifiedProduct) {
-            for (var i = 0; i < $scope.products.length; i++) {
-                if ($scope.products[i].id == modifiedProduct.id) {
-                    $scope.products[i] = modifiedProduct;
-                    break;
-                }
-            }
-            $scope.displayMode = 'list';
-        });
+        product.$save();
+        $scope.displayMode = 'list';
     };
 
     $scope.editOrCreateProduct = function (product) {
-        $scope.currentProduct = product ? angular.copy(product) : {};
+        $scope.currentProduct = product ? product : {};
         $scope.displayMode = 'edit';
     };
 
@@ -56,6 +43,9 @@ angular.module('exampleApp', ['increment'])
     };
 
     $scope.cancelEdit = function () {
+        if ($scope.currentProduct && $scope.currentProduct.$get) {
+            $scope.currentProduct.$get();
+        }
         $scope.currentProduct = {};
         $scope.displayMode = 'list';
     };
