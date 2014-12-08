@@ -22,7 +22,7 @@
                         ng-click="editOrCreateProduct(item)">
                     Edit
                 </button>
-                <increment value="item.price" />
+                <increment item="item" property-name="price" restful="true" method-name="$save" />
             </td>
         </tr>
         </tbody>
