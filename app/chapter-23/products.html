@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html ng-app="exampleApp">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css"/>
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap-theme.css"/>
+    <script src="/bower_components/angular/angular.min.js"></script>
+    <script src="/bower_components/angular-resource/angular-resource.min.js"></script>
+    <script src="/bower_components/angular-route/angular-route.min.js"></script>
+    <script src="/bower_components/angular-animate/angular-animate.min.js"></script>
+    <script src="products.js"></script>
+    <script src="increment.js"></script>
+    <style type="text/css">
+        .ngFade.ng-enter { transition: 0.1s linear all; opacity: 0; }
+        .ngFade.ng-enter-active { opacity: 1; }
+
+        /* parallel animation of both views
+        .ngFade.ng-leave { transition: 0.1s linear all; opacity: 1; }
+        .ngFade.ng-leave-active { opacity: 0; }
+        */
+    </style>
+</head>
+<body ng-controller="defaultCtrl">
+    <div class="panel panel-primary">
+        <h3 class="panel-heading">Products</h3>
+        <div ng-view class="ngFade"></div>
+    </div>
+</body>
+</html>

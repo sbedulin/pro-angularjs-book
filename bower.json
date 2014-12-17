@@ -6,8 +6,12 @@
     "angular": "1.2.x",
     "angular-resource": "1.2.x",
     "angular-route": "1.2.x",
+    "angular-animate": "1.2.x",
     "bootstrap": "^3",
     "jquery": "^2",
     "underscore": "*"
+  },
+  "resolutions": {
+    "angular": "1.2.x"
   }
 }
