@@ -9,7 +9,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="item in products">
+        <tr ng-repeat="item in data.products">
             <td>{{item.name}}</td>
             <td>{{item.category}}</td>
             <td class="text-right">{{item.price | currency}}</td>
@@ -28,7 +28,7 @@
         </tbody>
     </table>
     <div>
-        <button class="btn btn-primary" ng-click="listProducts()">Refresh</button>
+        <button class="btn btn-primary" ng-click="refreshProducts()">Refresh</button>
         <a href="#create" class="btn btn-primary">New</a>
     </div>
 </div>

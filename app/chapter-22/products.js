@@ -1,73 +1,60 @@
 angular.module('exampleApp', ['increment', 'ngResource', 'ngRoute'])
 .constant('baseUrl', 'http://localhost:5500/products/')
+.factory('ProductsResource', function($resource, baseUrl) {
+    return $resource(baseUrl + ':id', { id: '@id' },
+        { create: { method: 'POST' }, save: { method: 'PUT' } });
+})
 .config(function($routeProvider, $locationProvider) {
     $locationProvider.html5Mode(false);
 
-    $routeProvider.when('/list', {
-        templateUrl: 'tableView.html'
-    });
-
     $routeProvider.when('/edit/:id', {
-        templateUrl: 'editorView.html'
-    });
-
-    $routeProvider.when('/edit/:id/:data', {
-        templateUrl: 'editorView.html'
+        templateUrl: 'editorView.html',
+        controller: 'editCtrl'
     });
 
     $routeProvider.when('/create', {
-        templateUrl: 'editorView.html'
+        templateUrl: 'editorView.html',
+        controller: 'editCtrl'
     });
 
     $routeProvider.otherwise({
-        templateUrl: 'tableView.html'
-    });
-})
-.controller('defaultCtrl', function($scope, $http, $resource, $location,
-                                    $route, $routeParams, baseUrl) {
-    $scope.displayMode = 'list';
-    $scope.currentProduct = null;
-
-    $scope.$on('$routeChangeSuccess', function() {
-        if($location.path().indexOf('/edit/') === 0) {
-            var id = $routeParams.id;
-            for(var i = 0; i < $scope.products.length; i++) {
-                if($scope.products[i].id === id) {
-                    $scope.currentProduct = $scope.products[i];
-                    break;
-                }
+        templateUrl: 'tableView.html',
+        controller: 'tableCtrl',
+        resolve: {
+            data: function(ProductsResource) {
+                return ProductsResource.query();
             }
         }
     });
+})
+.controller('tableCtrl', function($scope, $location, $route, data) {
+    $scope.data.products = data;
 
-    $scope.productsResource = $resource(baseUrl + ':id', { id: '@id' },
-        { create: { method: 'POST' }, save: { method: 'PUT' } });
-
-    $scope.listProducts = function() {
-        $scope.products = $scope.productsResource.query();
-        $scope.products.$promise.then(function() {
-            console.log('Data loaded');
-        });
+    $scope.refreshProducts = function() {
+        $route.reload();
     };
+})
+.controller('editCtrl', function($scope, $routeParams, $location) {
+    $scope.currentProduct = null;
 
-    $scope.deleteProduct = function(product) {
-        product.$delete().then(function() {
-            $scope.products.splice($scope.products.indexOf(product), 1);
-        });
+    if($location.path().indexOf('/edit/') === 0) {
+        var id = $routeParams.id;
+        for(var i = 0; i < $scope.data.products.length; i++) {
+            if($scope.data.products[i].id === id) {
+                $scope.currentProduct = $scope.data.products[i];
+                break;
+            }
+        }
+    }
 
+    $scope.cancelEdit = function () {
         $location.path('/list');
-    };
-
-    $scope.createProduct = function(product) {
-        new $scope.productsResource(product).$create().then(function(newProduct) {
-            $scope.products.push(newProduct);
-            $location.path('/list');
-        });
     };
 
     $scope.updateProduct = function (product) {
-        product.$save();
-        $location.path('/list');
+        product.$save().then(function() {
+            $location.path('/list');
+        });
     };
 
     $scope.saveEdit = function (product) {
@@ -78,15 +65,23 @@ angular.module('exampleApp', ['increment', 'ngResource', 'ngRoute'])
         }
         $scope.currentProduct = {};
     };
+})
+.controller('defaultCtrl', function($scope, $location, ProductsResource) {
+    $scope.data = {};
 
-    $scope.cancelEdit = function () {
-        if ($scope.currentProduct && $scope.currentProduct.$get) {
-            $scope.currentProduct.$get();
-        }
-        $scope.currentProduct = {};
-        $location.path('/');
+    $scope.createProduct = function(product) {
+        new ProductsResource(product).$create().then(function(newProduct) {
+            $scope.data.products.push(newProduct);
+            $location.path('/list');
+        });
     };
 
-    $scope.listProducts();
+    $scope.deleteProduct = function(product) {
+        product.$delete().then(function() {
+            $scope.data.products.splice($scope.products.indexOf(product), 1);
+        });
+
+        $location.path('/list');
+    };
 });
 
