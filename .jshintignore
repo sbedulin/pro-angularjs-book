@@ -2,3 +2,4 @@ node_modules
 app/bower_components
 package.json
 Gruntfile.js
+app/chapter-25/karma.config.js
