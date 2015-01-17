@@ -1,0 +1,36 @@
+#!/bin/sh
+#
+# Put this file into ".git\hooks" folder
+# It would jshint-validate scripts only from the current commit
+#
+
+files=$(git diff --cached --name-only --diff-filter=ACM | grep ".js$")
+if [ "$files" = "" ]; then
+    exit 0
+fi
+
+valid=true
+
+printf '\n%s\n' "---- Validating JavaScript with JSHint: -----"
+
+for file in ${files}; do
+
+    result=$(jshint ${file} --config .jshintrc)
+
+    if [ "$result" == "" ]; then
+        printf '\n%s' "-- JSHint Passed: ${file}"
+    else
+        printf '\n\n%s' "-- JSHint Failed: ${file}"
+		printf '\n%s\n' "$result"
+        valid=false
+    fi
+done
+
+printf '\n\n%s\n' "---- JavaScript validation complete.    -----"
+
+if ${valid}; then
+    printf '\n%s\n' echo "Commit Succeeded"
+else
+    printf '\n%s\n' "Commit Failed: Please fix all above JSHint errors and try again"
+    exit 1
+fi

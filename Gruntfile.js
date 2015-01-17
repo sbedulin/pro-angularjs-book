@@ -26,6 +26,12 @@ module.exports = function(grunt) {
             options: {
                 jshintrc: true
             }
+        },
+        copy: {
+            "jshint-pre-commit-hook": {
+                src: '.jshint-pre-commit-hook',
+                dest: '.git/hooks/pre-commit'
+            }
         }
     });
 
@@ -33,10 +39,12 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-text-replace');
     grunt.loadNpmTasks('grunt-shell');
     grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-contrib-copy');
 
     grunt.registerTask('default', function() {
         grunt.task.run('replace', 'shell:gitAdd', 'shell:gitCommit');
     });
 
     grunt.registerTask('validatejs', ['jshint']);
+    grunt.registerTask('jshint-hook', ['copy:jshint-pre-commit-hook']);
 };
