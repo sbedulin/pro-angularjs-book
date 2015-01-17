@@ -3,7 +3,7 @@ angular.module('increment', [])
     return {
         restrict: "E",
         scope: {
-            item: '=item',
+            item: "=item",
             property: '@propertyName',
             restful: '@restful',
             methodName: '@methodName'
