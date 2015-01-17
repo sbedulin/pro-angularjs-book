@@ -1,7 +1,7 @@
 angular.module('increment', [])
 .directive('increment', function() {
     return {
-        restrict: 'E',
+        restrict: "E",
         scope: {
             item: '=item',
             property: '@propertyName',
