@@ -4,7 +4,7 @@
     "browser": true,
     "devel": true,
     "jquery": true,
-    "predef": ["angular"],
+    "predef": ["angular", "describe", "beforeEach", "it", "expect"],
 
     "camelcase": true,
     "curly": true,

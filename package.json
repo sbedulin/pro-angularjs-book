@@ -1,20 +1,20 @@
 {
-  "name": "Pro-AngularJS",
-  "description": "Pro AngularJS Book",
-  "author": "Adam Freeman",
-  "dependencies": {
-    "serve-static": "*",
-    "connect": "3.1.*"
-  },
-  "devDependencies": {
-    "grunt": "^0.4.5",
-    "grunt-contrib-copy": "^0.7.0",
-    "grunt-contrib-jshint": "^0.10.0",
-    "grunt-git": "~0.2.14",
-    "grunt-shell": "~1.1.1",
-    "grunt-text-replace": "~0.3.12",
-    "jshint": "^2.5.10",
-    "pre-commit": "0.0.11",
-    "which": "^1.0.8"
-  }
+    "name": "Pro-AngularJS",
+    "description": "Pro AngularJS Book",
+    "author": "Adam Freeman",
+    "dependencies": {
+        "serve-static": "*",
+        "connect": "3.1.*"
+    },
+    "devDependencies": {
+        "grunt": "^0.4.5",
+        "grunt-contrib-copy": "^0.7.0",
+        "grunt-contrib-jshint": "^0.10.0",
+        "grunt-git": "~0.2.14",
+        "grunt-shell": "~1.1.1",
+        "grunt-text-replace": "~0.3.12",
+        "jshint": "^2.5.10",
+        "karma": "~0.10",
+        "karma-phantomjs-launcher": "~0.1"
+    }
 }

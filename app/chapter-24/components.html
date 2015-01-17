@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html ng-app="exampleApp">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css"/>
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap-theme.css"/>
+    <script src="/bower_components/angular/angular.min.js"></script>
+    <script>
+        angular.module('exampleApp', [])
+            .config(function($provide) {
+                $provide.decorator('$log', function($delegate) {
+                    $delegate.originalLog = $delegate.log;
+                    $delegate.log = function(message) {
+                        $delegate.originalLog('Decorated: ' + message);
+                    };
+                    return $delegate;
+                });
+            })
+            .controller('defaultCtrl', function($scope, $log) {
+                $scope.handleClick = function() {
+                    $log.log('Button clicked');
+                };
+            })
+            .controller('injectionCtrl', function($scope, $injector, $rootElement) {
+                var counter = 0;
+
+                var logClick = function($log, $exceptionHandler, message) {
+                    if(counter === 0) {
+                        $log.log(message);
+                        counter++;
+                    } else {
+                        $exceptionHandler('alreadyClicked');
+                    }
+                };
+
+                /*
+                $scope.handleClick = function() {
+                    var deps = $injector.annotate(logClick);
+                    var args = [];
+                    for(var i = 0; i < deps.length; i++) {
+                        if($injector.has(deps[i])) {
+                            args.push($injector.get(deps[i]));
+                        } else if(deps[i] === 'message') {
+                            args.push('Button Clicked');
+                        }
+                    }
+                    logClick.apply(null, args);
+                };
+                */
+
+                // ... or
+                $scope.handleClick = function() {
+                    var localVars = { message: 'Button Clicked' };
+                    $injector.invoke(logClick, null, localVars);
+                    // ... or
+                    //$rootElement.injector().invoke(logClick, null, localVars);
+                };
+            });
+    </script>
+</head>
+<body ng-controller="injectionCtrl">
+    <div class="well">
+        <button class="btn btn-primary" ng-click="handleClick()">Click Me!</button>
+    </div>
+</body>
+</html>
