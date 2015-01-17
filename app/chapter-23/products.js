@@ -48,7 +48,7 @@ angular.module('exampleApp', ['increment', 'ngResource', 'ngRoute', 'ngAnimate']
     }
 
     $scope.cancelEdit = function () {
-        $location.path('/list');
+        $location.path("/list");
     };
 
     $scope.updateProduct = function (product) {
