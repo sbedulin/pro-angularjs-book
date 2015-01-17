@@ -29,7 +29,7 @@ done
 printf '\n\n%s\n' "---- JavaScript validation complete.    -----"
 
 if ${valid}; then
-    printf '\n%s\n' echo "Commit Succeeded"
+    printf '\n%s\n' "Commit Succeeded"
 else
     printf '\n%s\n' "Commit Failed: Please fix all above JSHint errors and try again"
     exit 1
